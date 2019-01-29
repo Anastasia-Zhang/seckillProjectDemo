@@ -11,8 +11,7 @@
   <name>miaosha</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
-
-    <parent>
+     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.5.RELEASE</version>
