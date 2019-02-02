@@ -1,5 +1,6 @@
 package com.miaoshaProject;
 
+
 import com.miaoshaProject.dao.UserDOMapper;
 import com.miaoshaProject.dataobject.UserDO;
 import org.mybatis.spring.annotation.MapperScan;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,4 +44,12 @@ public class App
         //启动springboot
         SpringApplication.run(App.class);
     }
+
+//    @Bean
+//    public FilterRegistrationBean registerFilter() {
+//        FilterRegistrationBean bean = new FilterRegistrationBean();
+//        bean.addUrlPatterns("/*");//所有请求都经过这个Filter
+//        bean.setFilter(new CrosFilter());//设置过滤器
+//        return bean;
+//    }
 }

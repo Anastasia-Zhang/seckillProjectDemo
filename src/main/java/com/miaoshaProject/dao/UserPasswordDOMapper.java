@@ -1,6 +1,7 @@
 package com.miaoshaProject.dao;
 
 import com.miaoshaProject.dataobject.UserPasswordDO;
+import org.apache.ibatis.annotations.Options;
 
 public interface UserPasswordDOMapper {
     /**
@@ -25,6 +26,7 @@ public interface UserPasswordDOMapper {
      *
      * @mbg.generated Tue Jan 29 11:56:40 CST 2019
      */
+    @Options( useGeneratedKeys = true, keyProperty = "id", keyColumn = "ID")
     int insertSelective(UserPasswordDO record);
 
     /**

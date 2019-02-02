@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseController {
+
+    public static final String CONTENT_TYPE_FORMED = "application/x-www-form-urlencoded";
+
     //定义exceptionhandler解决未被controller层吸收的异常
     // controller层是链接view层最后的一层，若发生在该层的的异常没有没处理，那么对于用户体验并不是很好
     //因此定义一种处理方式，使发生在controller层的异常得到处理，转化为用户可以接受且看的懂得界面，优化用户响应方式
@@ -26,13 +29,13 @@ public class BaseController {
             BusinessException businessException = (BusinessException)ex;//强行向上转型
 
 
-            responseData.put("errCode",businessException.getErrCode());//获取传入的CommonError类型的错误码：100001
-            responseData.put("errMsg",businessException.getErrMsg());//获取传入的CommonError类型的错信息：用户对象不存在
+            responseData.put("errCode",businessException.getErrCode());
+            responseData.put("errMsg",businessException.getErrMsg());
 
         }else{
 
-            responseData.put("errCode", EmBusinessError.UNKNOWN_ERROR.getErrCode());//获取传入的CommonError类型的错误码：100001
-            responseData.put("errMsg",EmBusinessError.UNKNOWN_ERROR.getErrMsg());//获取传入的CommonError类型的错信息：用户对象不存在
+            responseData.put("errCode", EmBusinessError.UNKNOWN_ERROR.getErrCode());
+            responseData.put("errMsg",EmBusinessError.UNKNOWN_ERROR.getErrMsg());
 
         }
         return CommonReturnType.create(responseData,"fail");//若直接把枚举传递过来，responseBody所默认的json数据序列化方式直接变成UNKNOWN_ERROR，得不到errCode和errMsg方式

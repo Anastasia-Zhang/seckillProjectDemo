@@ -9,7 +9,6 @@ public class UserModel {
     private String telphone;
     private String registerMode;
     private String thirdPartyId;
-
     private String encrptpassword;//数据模型设计成两张不同的表，但对于java的领域模型来说是属于user对象的
 
     public Integer getId() {
