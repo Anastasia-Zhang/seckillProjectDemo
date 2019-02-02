@@ -1,14 +1,29 @@
 package com.miaoshaProject.service.model;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 //真正处理逻辑关系的类
 public class UserModel {
     private Integer id;
+    @NotBlank(message = "用户名不能为空")
     private String name;
+
+    @NotNull(message = "性别必填")
     private Byte gender;
+
+    @NotNull(message = "年龄必填")
+    @Min(value = 0,message = "年龄大于0")
+    @Max(value = 150,message = "年龄小于150")
     private Integer age;
+
+    @NotBlank(message = "手机号不能为空")
     private String telphone;
     private String registerMode;
     private String thirdPartyId;
+    @NotBlank(message = "密码不能为空")
     private String encrptpassword;//数据模型设计成两张不同的表，但对于java的领域模型来说是属于user对象的
 
     public Integer getId() {

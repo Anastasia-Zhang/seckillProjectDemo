@@ -8,6 +8,8 @@ import com.miaoshaProject.error.BusinessException;
 import com.miaoshaProject.error.EmBusinessError;
 import com.miaoshaProject.service.UserService;
 import com.miaoshaProject.service.model.UserModel;
+import com.miaoshaProject.validator.ValidationResult;
+import com.miaoshaProject.validator.ValidatorImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserPasswordDOMapper userPasswordDOMapper;
+
+    @Autowired
+    private ValidatorImpl validator;
 
     @Override
     public UserModel getUserById(Integer id) {
@@ -65,14 +70,20 @@ public class UserServiceImpl implements UserService {
         if(userModel == null){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
-        //判断字段是否为空
-        if(!StringUtils.isNoneEmpty(userModel.getName())
-                || userModel.getGender() == null
-                ||userModel.getAge()== null
-                ||StringUtils.isEmpty(userModel.getTelphone()) ){
-            //return cs == null || cs.length() == 0;
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+//        //判断字段是否为空
+//        if(!StringUtils.isNoneEmpty(userModel.getName())
+//                || userModel.getGender() == null
+//                ||userModel.getAge()== null
+//                ||StringUtils.isEmpty(userModel.getTelphone()) ){
+//            //return cs == null || cs.length() == 0;
+//            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+//        }
+
+        ValidationResult result = validator.validate(userModel);
+        if(result.isHasErrors()){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,result.getErrorMsg());
         }
+
         //注册
         //实现modol->dataobject 方法
         UserDO userDO = convertFromModel(userModel);
