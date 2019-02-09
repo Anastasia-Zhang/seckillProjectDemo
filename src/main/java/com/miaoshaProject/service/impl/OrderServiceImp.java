@@ -41,7 +41,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     @Transactional
-    public OrderModel createOreder(Integer userId, Integer itemId, Integer amount) throws BusinessException {
+    public OrderModel createOreder(Integer userId, Integer itemId, Integer promoId ,Integer amount) throws BusinessException {
         //校验下单状态，下单产品是否存在，用户是否合法，购买数量是否正确
         ItemModel itemModel = itemService.getItemById(itemId);
         if (itemModel == null){
@@ -49,10 +49,21 @@ public class OrderServiceImp implements OrderService {
         }
         UserModel userModel = userService.getUserById(userId);
         if(userModel == null){
-            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户不想存在");
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户不存在");
         }
         if (amount <= 0 || amount >99){
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"数量信息不正确");
+        }
+        //校验活动信息
+        if(promoId != null){
+            //1.校验对应活动是否存在这个适用商品
+            if (promoId.intValue() !=itemModel.getPromoModel().getId() ){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"活动信息不正确");
+            }
+            //2.校验活动是否正在进行中
+            else if(itemModel.getPromoModel().getStatus() !=2){
+                throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"活动信息不正确,活动还没开始");
+            }
         }
 
         //落单减库存
@@ -65,8 +76,15 @@ public class OrderServiceImp implements OrderService {
         orderModel.setUserId(userId);
         orderModel.setItemId(itemId);
         orderModel.setAmount(amount);
-        orderModel.setItemPrice(itemModel.getPrice());
-        orderModel.setOrderAmount(itemModel.getPrice().multiply(new BigDecimal(amount)));
+        if (promoId != null){//若有活动，则改成促销价格
+            orderModel.setItemPrice(itemModel.getPromoModel().getPromoItemPrice());
+        }else{
+            orderModel.setItemPrice(itemModel.getPrice());
+        }
+
+        orderModel.setPromoId(promoId);
+        orderModel.setOrderPrice(orderModel.getItemPrice().multiply(new BigDecimal(amount)));
+
 
         //生成及交易流水号
         orderModel.setId(generateOrderNo());

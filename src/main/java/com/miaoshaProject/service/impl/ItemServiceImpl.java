@@ -7,7 +7,9 @@ import com.miaoshaProject.dataobject.ItemStockDO;
 import com.miaoshaProject.error.BusinessException;
 import com.miaoshaProject.error.EmBusinessError;
 import com.miaoshaProject.service.ItemService;
+import com.miaoshaProject.service.PromoService;
 import com.miaoshaProject.service.model.ItemModel;
+import com.miaoshaProject.service.model.PromoModel;
 import com.miaoshaProject.validator.ValidationResult;
 import com.miaoshaProject.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -30,6 +32,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemStockDOMapper itemStockDOMapper;
+
+    @Autowired
+    private PromoService promoService;
 
     private ItemDO convertItemDOFromItemModel(ItemModel itemModel){
         if(itemModel == null){
@@ -95,9 +100,16 @@ public class ItemServiceImpl implements ItemService {
         }
         //操作获得库存数量
         ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
-
         //将dataobject转化为model
         ItemModel itemModel = convertModelFromDataObject(itemDO,itemStockDO);
+
+
+        //看商品是否有活动并获得商品活动信息
+        PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
+        //活动存在并且状态是未开始或者进行中的，设置秒杀活动在商品信息上
+        if (promoModel != null && promoModel.getStatus().intValue()!=3){
+            itemModel.setPromoModel(promoModel);
+        }
 
         return itemModel;
     }
