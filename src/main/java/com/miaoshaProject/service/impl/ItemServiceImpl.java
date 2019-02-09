@@ -102,6 +102,25 @@ public class ItemServiceImpl implements ItemService {
         return itemModel;
     }
 
+    @Override
+    @Transactional
+    public boolean decreaseStock(Integer itemId, Integer amount) {
+        //影响的条目数，若失败则返回结果为0
+        int affectedRow = itemStockDOMapper.decreaseStock(itemId,amount);
+        if(affectedRow > 0){
+            //更新库存失败
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    @Transactional
+    public void increaseSales(Integer itemId, Integer amount) throws BusinessException {
+        itemDOMapper.increaseSales(itemId,amount);
+    }
+
     private ItemModel convertModelFromDataObject(ItemDO itemDO,ItemStockDO itemStockDO)
     {
         ItemModel itemModel = new ItemModel();
