@@ -1,11 +1,13 @@
 package com.miaoshaProject.controllor;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.miaoshaProject.controllor.viewobj.UserVO;
 import com.miaoshaProject.error.BusinessException;
 import com.miaoshaProject.error.EmBusinessError;
 import com.miaoshaProject.reponse.CommonReturnType;
 import com.miaoshaProject.service.UserService;
 import com.miaoshaProject.service.model.UserModel;
+import com.miaoshaProject.util.SendSms;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.BeanUtils;
@@ -65,8 +67,8 @@ public class UserController extends BaseController{
         //验证手机号和otp相符合
         //获取该手机号对应的验证码
 
-        System.out.println("registerURL: "+ httpServletRequest.getRequestURL());
-        System.out.println("此session的id为: "+httpServletRequest.getSession().getId());
+        //System.out.println("registerURL: "+ httpServletRequest.getRequestURL());
+        //System.out.println("此session的id为: "+httpServletRequest.getSession().getId());
         String inSessionOtpCode = (String) httpServletRequest.getSession().getAttribute(telphone);
         System.out.println(inSessionOtpCode);
         //看二者是否相等
@@ -102,20 +104,21 @@ public class UserController extends BaseController{
     //用户获取otp短信接口
     @RequestMapping(value = "/getotp",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
-    public CommonReturnType getOtp(@RequestParam(name="telphone") String telphone) {
-        //需要按照一定的规则生成otp验证码
-        Random random = new Random();
-        int randomInt = random.nextInt(99999);
-        randomInt += 10000;//随机数取值范围[10000,1099999)
-        String otpCode = String.valueOf(randomInt);
+    public CommonReturnType getOtp(@RequestParam(name="telphone") String telphone) throws ClientException {
 
-        //将otp验证码同对应的用户手机号相关联(可以用Redis做分布式的绑定,key value对，当用户多次调用getOtp时，随机生成的value只有当前最新的有效)
+        StringBuffer stringBuffer=new StringBuffer();
+        for (int x=0;x<=5;x++) {
+            int random = (int) (Math.random() * (10 - 1));
+            stringBuffer.append(random);
+        }
+        String string = stringBuffer.toString();
+        int otpCode = Integer.parseInt(string);
+        //SendSms sendSms = new SendSms();
+        SendSms.getMessage(telphone,otpCode);
         //此处暂时用httpSession绑定
-        System.out.println("请求url");
-        System.out.println("getOtpURL: "+ httpServletRequest.getRequestURL());
         httpServletRequest.getSession().setAttribute(telphone,otpCode);
-        System.out.println("成功设置session,id为: "+httpServletRequest.getSession().getId());
-        System.out.println("设置session的value值为: "+(String)httpServletRequest.getSession().getAttribute(telphone));
+       // System.out.println("成功设置session,id为: "+httpServletRequest.getSession().getId());
+        // System.out.println("设置session的value值为: "+(String)httpServletRequest.getSession().getAttribute(telphone));
 
         //将otp验证码通过短信通道发送给用户，省略
         System.out.println("telphone = " + telphone + " & otpCode = "+otpCode);//打印到控制台上，方便测试时使用

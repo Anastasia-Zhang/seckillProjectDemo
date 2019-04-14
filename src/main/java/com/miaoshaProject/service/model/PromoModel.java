@@ -9,8 +9,6 @@ public class PromoModel {
 
     private Integer status;//1还未开始，2进行中，3表示结束
 
-
-
     //活动名称
     private String promoName;
 

@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         //实现modol->dataobject 方法
         UserDO userDO = convertFromModel(userModel);
         //捕捉唯一索引重复异常
-//        userDOMapper.insertSelective(userDO);
+
         try{
             userDOMapper.insertSelective(userDO);
         }catch(DuplicateKeyException ex){
