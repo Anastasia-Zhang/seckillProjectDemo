@@ -3,6 +3,8 @@ package com.miaoshaProject.controllor;
 import com.miaoshaProject.error.BusinessException;
 import com.miaoshaProject.error.EmBusinessError;
 import com.miaoshaProject.reponse.CommonReturnType;
+import com.miaoshaProject.service.model.UserModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseController {
+
+    @Autowired
+    private HttpServletRequest httpServletRequest;
 
     public static final String CONTENT_TYPE_FORMED = "application/x-www-form-urlencoded";
 
@@ -45,5 +50,17 @@ public class BaseController {
         commonReturnType.setStatus("fail");//定义返回状态值
         commonReturnType.setData(responseData);
         return commonReturnType;*/
+
+
+    }
+
+    public UserModel validateUserLogin() throws BusinessException {
+        Boolean isLogin = (Boolean)httpServletRequest.getSession().getAttribute("IS_LOGIN");
+        if(isLogin == null || !isLogin.booleanValue()){
+            throw new BusinessException(EmBusinessError.USER_NOT_LOGIN,"用户未登录");
+        }
+        //获取用户登录信息
+        UserModel userModel = (UserModel) httpServletRequest.getSession().getAttribute("LOGIN_USER");
+        return userModel;
     }
 }

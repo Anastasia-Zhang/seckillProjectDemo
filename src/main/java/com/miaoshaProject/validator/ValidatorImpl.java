@@ -1,6 +1,16 @@
 package com.miaoshaProject.validator;
 
+import com.miaoshaProject.dao.UserDOMapper;
+import com.miaoshaProject.error.BusinessException;
+import com.miaoshaProject.error.EmBusinessError;
+import com.miaoshaProject.service.ItemService;
+import com.miaoshaProject.service.UserService;
+import com.miaoshaProject.service.impl.ItemServiceImpl;
+import com.miaoshaProject.service.impl.UserServiceImpl;
+import com.miaoshaProject.service.model.ItemModel;
+import com.miaoshaProject.service.model.UserModel;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
@@ -12,6 +22,7 @@ import java.util.Set;
 public class ValidatorImpl implements InitializingBean {
 
     private Validator validator;
+
 
     //实现校验方法并返回校验结果
     public ValidationResult validate(Object bean)
@@ -38,4 +49,7 @@ public class ValidatorImpl implements InitializingBean {
         //将hibernate validator 通过工厂化的方式使其实例化
         this.validator = Validation.buildDefaultValidatorFactory().getValidator();
     }
+
+
+
 }
