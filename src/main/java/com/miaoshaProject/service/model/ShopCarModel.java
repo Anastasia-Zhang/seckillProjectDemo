@@ -6,6 +6,10 @@ public class ShopCarModel {
 
     private Integer shopcarId;
 
+    private String itemName;
+
+    private String imgUrl;
+
     private Integer userId;
 
     private  Integer itemId;
@@ -31,6 +35,22 @@ public class ShopCarModel {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public Integer getItemId() {

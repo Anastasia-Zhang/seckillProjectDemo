@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 public final class RedisUtils {
   @Autowired
     private RedisTemplate<String, Object> redisTemplate;
+
         /**
          * 指定缓存失效时间
          * @param key 键
@@ -124,39 +125,36 @@ public final class RedisUtils {
         }
     }
 
-//        /**
-//
-//         * 递增
-//
-//         * @param key 键
-//
-//         * @param delta 要增加几(大于0)
-//
-//         * @return
-//
-//         */
-//    public long incr(String key, long delta) {
-//        if (delta < 0) {
-//            throw new RuntimeException("递增因子必须大于0");
-//        }
-//        return redisTemplate.opsForValue().increment(key, delta);
-//    }
-//
-//        /**
-//         * 递减
-//         * @param key 键
-//         * @param delta 要减少几(小于0)
-//         * @return
-//         */
-//    public long decr(String key, long delta) {
-//        if (delta < 0) {
-//            throw new RuntimeException("递减因子必须大于0");
-//        }
-//        return redisTemplate.opsForValue().increment(key, -delta);
-//    }
+        /**
+
+         * 递增
+         * @param key 键
+         * @param delta 要增加几(大于0)
+         * @return
+         */
+    public long incr(String key, long delta) {
+        if (delta < 0) {
+            throw new RuntimeException("递增因子必须大于0");
+        }
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
 
         /**
-         * HashGet
+         * 递减
+         * @param key 键
+         * @param delta 要减少几(小于0)
+         * @return
+         */
+    public long decr(String key, long delta) {
+        if (delta < 0) {
+            throw new RuntimeException("递减因子必须大于0");
+        }
+        return redisTemplate.opsForValue().increment(key, -delta);
+    }
+
+    /*----------------Hash------------*/
+        /**
+         * HashGet 获取存储在哈希表中指定字段的值
          * @param key 键 不能为null
          * @param item 项 不能为null
          * @return 值
@@ -165,6 +163,14 @@ public final class RedisUtils {
         return redisTemplate.opsForHash().get(key, item);
     }
 
+    /**
+     * HashGet 指定在哈希表中的所有item值
+     * @param key 键 不能为null
+     * @return 值
+     */
+    public Set<Object> hgetAllItems(String key) {
+        return redisTemplate.opsForHash().keys(key);
+    }
 
         /**
          * 获取hashKey对应的所有键值
@@ -177,7 +183,7 @@ public final class RedisUtils {
 
 
         /**
-         * HashSet
+         * HashSet 得到HushTable的所有值
          * @param key
          * @param map 对应多个键
          * @return true 成功 false 失败
@@ -271,8 +277,11 @@ public final class RedisUtils {
          * @return true 存在 false不存在
          */
     public boolean hHasKey(String key, String item) {
-        return redisTemplate.opsForHash().hasKey(key, item);
+       return redisTemplate.opsForHash().hasKey(key, item);
+
     }
+
+
 
 
         /**

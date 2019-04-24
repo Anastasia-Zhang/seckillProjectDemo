@@ -46,4 +46,23 @@ public class ValidateServiceImpl implements ValidateService {
             }
         }
     }
+
+    @Override
+    public void userValidate(Integer userId) throws BusinessException {
+        if(userId == null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
+        }
+        UserModel userModel = userService.getUserById(userId);
+        if(userModel == null){
+            throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"用户不存在");
+        }
+    }
+
+    @Override
+    public void itemValidate(Integer itemId) throws BusinessException {
+        ItemModel itemModel = itemService.getItemById(itemId);
+        if(itemModel == null){
+            throw  new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"商品不存在");
+        }
+    }
 }

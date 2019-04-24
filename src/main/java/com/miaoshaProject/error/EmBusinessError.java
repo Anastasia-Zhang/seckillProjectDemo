@@ -11,6 +11,9 @@ public enum EmBusinessError implements CommonError {
     USER_NOT_LOGIN(20003,"用户未登录"),
     //30000为交易信息错误
     STOCK_NOT_ENOUGH(30001,"商品库存不足"),
+    //40000为购物车错误
+    SHOPCAR_NOT_EXIST(40001,"用户购物车不存在"),
+    SHOPCAR_IS_EMPTY(40002,"用户购物车为空"),
 
 
     ;

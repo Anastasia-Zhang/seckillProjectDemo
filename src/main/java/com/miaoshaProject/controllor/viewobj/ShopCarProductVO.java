@@ -3,32 +3,50 @@ package com.miaoshaProject.controllor.viewobj;
 import java.math.BigDecimal;
 
 public class ShopCarProductVO {
-    private Integer id;
+
+    private Integer shopcarId;
+
+    private String itemName;
+
+    private String imgUrl;
+
     private Integer userId;
-    private Integer productId;
-    private Integer quantity;
-    private String productName;
-    private String productImage;
-    private BigDecimal productPrice;
-    //商品活动相关信息
-    ///记录商品是否在秒杀活动中，以及对应的状态0：没有秒杀活动，1表示秒杀活动待开始，2进行中
-    private Integer promoStatus;
-    private BigDecimal promoPrice;
-    private Integer promoId;
+
+    private  Integer itemId;
+
+    private Integer promoId;//若非空，则以商品秒杀方式下单
+
+    //购买商品的单价，若promoId非空则表示秒杀商品价格
+    private BigDecimal itemPrice;
+    //购买数量
+    private Integer amount;
+
     private BigDecimal productTotalPrice;
     //private Integer productStock;
-    private Integer productChecked;//是否被选中
+    private Integer productChecked;//是否被选中 0代表没有选中 1代表选中
 
-    //判断加入购物车的商品是否超过库存中商品的数量会返回这样的标识"limitQuantity"
-    //失败的：LIMIT_NUM_FAIL 成功的：LIMIT_NUM_SUCCESS
-    private String limitQuantity;
-
-    public Integer getId() {
-        return id;
+    public Integer getShopcarId() {
+        return shopcarId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setShopcarId(Integer shopcarId) {
+        this.shopcarId = shopcarId;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     public Integer getUserId() {
@@ -39,60 +57,12 @@ public class ShopCarProductVO {
         this.userId = userId;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getItemId() {
+        return itemId;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getProductImage() {
-        return productImage;
-    }
-
-    public void setProductImage(String productImage) {
-        this.productImage = productImage;
-    }
-
-    public BigDecimal getProductPrice() {
-        return productPrice;
-    }
-
-    public void setProductPrice(BigDecimal productPrice) {
-        this.productPrice = productPrice;
-    }
-
-    public Integer getPromoStatus() {
-        return promoStatus;
-    }
-
-    public void setPromoStatus(Integer promoStatus) {
-        this.promoStatus = promoStatus;
-    }
-
-    public BigDecimal getPromoPrice() {
-        return promoPrice;
-    }
-
-    public void setPromoPrice(BigDecimal promoPrice) {
-        this.promoPrice = promoPrice;
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
     }
 
     public Integer getPromoId() {
@@ -101,6 +71,22 @@ public class ShopCarProductVO {
 
     public void setPromoId(Integer promoId) {
         this.promoId = promoId;
+    }
+
+    public BigDecimal getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(BigDecimal itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public BigDecimal getProductTotalPrice() {
@@ -117,13 +103,5 @@ public class ShopCarProductVO {
 
     public void setProductChecked(Integer productChecked) {
         this.productChecked = productChecked;
-    }
-
-    public String getLimitQuantity() {
-        return limitQuantity;
-    }
-
-    public void setLimitQuantity(String limitQuantity) {
-        this.limitQuantity = limitQuantity;
     }
 }

@@ -3,7 +3,7 @@ package com.miaoshaProject.controllor.viewobj;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class ShopCarVO {
+public class ShopCarListVO {
     private List<ShopCarProductVO> ShopCarProductVoLists;
     private boolean allChecked;
     private BigDecimal cartTotalPrice;
