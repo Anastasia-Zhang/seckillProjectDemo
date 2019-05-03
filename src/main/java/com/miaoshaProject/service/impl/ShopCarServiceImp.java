@@ -96,9 +96,7 @@ public class ShopCarServiceImp implements ShopCarService {
             shopCarModel.setUserId(userId);
             shopCarModel.setAmount(amount);
             //判断promoId是否为空，若为空则设置为0代表无活动
-            if(promoId == null){
-                shopCarModel.setPromoId(0);
-            }else {
+            if(promoId != null){
                 shopCarModel.setPromoId(promoId);
             }
             //判断是否有活动，如果有活动  且 活动正在进行中 则把价格设置成活动价

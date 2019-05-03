@@ -35,13 +35,13 @@ public class ValidateServiceImpl implements ValidateService {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"数量信息不正确");
         }
         //校验活动信息
-        if(promoId != null){
+        if(promoId != null && promoId !=0 ){
             //1.校验对应活动是否存在这个适用商品
             if (promoId.intValue() !=itemModel.getPromoModel().getId() ){
                 throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"活动信息不正确");
             }
             //2.校验活动是否正在进行中
-            else if(itemModel.getPromoModel().getStatus() !=2){
+            else if(itemModel.getPromoModel().getStatus() != 2){
                 throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR,"活动信息不正确,活动还没开始");
             }
         }
