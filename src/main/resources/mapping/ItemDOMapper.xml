@@ -45,6 +45,18 @@
     from item order by sales DESC
   </select>
 
+  <select id="selectByKeyword" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    *
+    FROM
+    item
+    WHERE 1=1
+    <if test="keyword != null and keyword!=''">
+      <bind name="pattern" value="'%' + keyword + '%'" ></bind>
+      and  title LIKE #{pattern}
+    </if>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
       WARNING - @mbg.generated
@@ -163,4 +175,6 @@
     sales = sales + #{amount}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
 </mapper>

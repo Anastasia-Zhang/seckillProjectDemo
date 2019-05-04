@@ -82,14 +82,13 @@ public class ItemServiceImpl implements ItemService {
     @Override//查询所有的商品信息，也可以按照销量排序
     public List<ItemModel> listItem() {
         List<ItemDO> itemDOList = itemDOMapper.listItem();
-        //java8 stream api 将itemDOList里的itemDO转化（映射成itemModel）
-        //将转换成的itemModel重新放进一个list里面
-        List<ItemModel> itemModelList = itemDOList.stream().map(itemDO -> {
-            ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
-            ItemModel itemModel = this.convertModelFromDataObject(itemDO,itemStockDO);
-            return itemModel;
-        }).collect(Collectors.toList());
-        return itemModelList;
+        return this.convertModelListFromDO(itemDOList);
+    }
+
+    @Override
+    public List<ItemModel> searchItem(String keyword) {
+        List<ItemDO> itemDOList = itemDOMapper.selectByKeyword(keyword);
+        return this.convertModelListFromDO(itemDOList);
     }
 
     @Override
@@ -140,5 +139,14 @@ public class ItemServiceImpl implements ItemService {
         itemModel.setPrice(new BigDecimal(itemDO.getPrice()));
         itemModel.setStock(itemStockDO.getStock());
         return itemModel;
+    }
+
+    private List<ItemModel> convertModelListFromDO(List<ItemDO> itemDOList){
+        List<ItemModel> itemModelList = itemDOList.stream().map(itemDO -> {
+            ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
+            ItemModel itemModel = this.convertModelFromDataObject(itemDO,itemStockDO);
+            return itemModel;
+        }).collect(Collectors.toList());
+        return itemModelList;
     }
 }

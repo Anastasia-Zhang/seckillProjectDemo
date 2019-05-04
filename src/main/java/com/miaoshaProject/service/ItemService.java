@@ -11,6 +11,8 @@ public interface ItemService {
     ItemModel createItem(ItemModel itemModel) throws BusinessException;
     //商品列表浏览
     List<ItemModel> listItem();
+    //商品查询
+    List<ItemModel> searchItem(String keyword);
     //商品详情浏览
     ItemModel getItemById(Integer id);
     //库存扣减

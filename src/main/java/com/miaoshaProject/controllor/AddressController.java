@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@Controller("/address")
-@RequestMapping("address")
+@Controller("address")
+@RequestMapping("/address")
 @CrossOrigin(origins = {"*"},allowCredentials = "true")
 public class AddressController extends BaseController {
 

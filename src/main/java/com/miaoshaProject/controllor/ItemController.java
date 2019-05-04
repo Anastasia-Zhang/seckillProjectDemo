@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller("/item")
-@RequestMapping("item")
+@Controller("item")
+@RequestMapping("/item")
 @CrossOrigin(origins = {"*"},allowCredentials = "true")
 public class ItemController extends BaseController {
 
@@ -62,13 +62,21 @@ public class ItemController extends BaseController {
     public CommonReturnType listItem(){
         List<ItemModel> itemModelList = itemService.listItem();
         //将List内的model转化成itemVO并放进一个list里面
-        List<ItemVO> itemVOList = itemModelList.stream().map(itemModel -> {
-            ItemVO itemVO = this.convertVOFromModel(itemModel);
-            return itemVO;
-        }).collect(Collectors.toList());
+        List<ItemVO> itemVOList = this.convertVOListFromModel(itemModelList);
 
         return CommonReturnType.create(itemVOList);
     }
+
+    @RequestMapping(value = "/search",method = {RequestMethod.GET})
+    @ResponseBody
+    public CommonReturnType searchItem(@RequestParam(name = "keyWord")String keyWord){
+        List<ItemModel> itemModelList = itemService.searchItem(keyWord);
+        List<ItemVO> itemVOList = this.convertVOListFromModel(itemModelList);
+
+        return CommonReturnType.create(itemVOList);
+    }
+
+
 
     private ItemVO convertVOFromModel(ItemModel itemModel){
         if(itemModel == null)
@@ -88,5 +96,13 @@ public class ItemController extends BaseController {
         }
 
         return itemVO;
+    }
+
+    private List<ItemVO> convertVOListFromModel(List<ItemModel> itemModelList){
+        List<ItemVO> itemVOList = itemModelList.stream().map(itemModel -> {
+            ItemVO itemVO = this.convertVOFromModel(itemModel);
+            return itemVO;
+        }).collect(Collectors.toList());
+        return itemVOList;
     }
 }

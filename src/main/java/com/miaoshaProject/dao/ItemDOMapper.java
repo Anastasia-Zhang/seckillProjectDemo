@@ -14,6 +14,7 @@ public interface ItemDOMapper {
      */
 
     List<ItemDO> listItem();
+    List<ItemDO> selectByKeyword(@Param("keyword")String keyword);
     int deleteByPrimaryKey(Integer id);
 
     /**

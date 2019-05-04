@@ -52,7 +52,10 @@
         <!--<table  tableName="user_address"   domainObjectName="UserAddressDO" enableCountByExample="false"-->
                 <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                 <!--selectByExampleQueryId="false"></table>-->
-        <table  tableName="order_address_status"   domainObjectName="OrderAddressStatusDO" enableCountByExample="false"
+        <!--<table  tableName="order_address_status"   domainObjectName="OrderAddressStatusDO" enableCountByExample="false"-->
+                <!--enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+                <!--selectByExampleQueryId="false"></table>-->
+        <table  tableName="comment"   domainObjectName="CommentDO" enableCountByExample="false"
                 enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                 selectByExampleQueryId="false"></table>
 
