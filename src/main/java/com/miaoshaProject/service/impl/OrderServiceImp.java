@@ -112,11 +112,7 @@ public class OrderServiceImp implements OrderService {
         return orderModellist;
     }
 
-    /**
-     * 展示从购物车下的订单，确认收货地址
-     * @param orderIdList 订单id List 以空格为分割符
-     * @return List<OrderModel> 返回刚刚下的订单
-     */
+
     @Override
     public List<OrderModel> showOrderForConfirm(Integer userId,String orderIdList) throws BusinessException {
         validateService.userValidate(userId);

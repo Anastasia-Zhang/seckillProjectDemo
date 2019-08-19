@@ -85,10 +85,7 @@ public class OrderController extends BaseController {
             throw new BusinessException(EmBusinessError.PARAMETER_VALIDATION_ERROR);
         }
         List<OrderModel> orderModelList = orderService.showOrderForConfirm(userModel.getId(),orderIdList);
-        List<OrderVO> orderVOList = orderModelList.stream().map(orderModel -> {
-            OrderVO orderVO = this.convertOrderVOFrmoMoedel(orderModel);
-            return orderVO;
-        }).collect(Collectors.toList());
+        List<OrderVO> orderVOList = convertVOListFromModel(orderModelList);
         return CommonReturnType.create(orderVOList);
     }
 
@@ -109,7 +106,8 @@ public class OrderController extends BaseController {
     public CommonReturnType showOrder() throws BusinessException {
         UserModel userModel = validateUserLogin();
         List<OrderModel> orderModelList = orderService.getOrderByUserId(userModel.getId());
-        return CommonReturnType.create(orderModelList);
+        List<OrderVO> orderVOList = convertVOListFromModel(orderModelList);
+        return CommonReturnType.create(orderVOList);
     }
 
     @RequestMapping(value = "delOrder",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
@@ -139,5 +137,14 @@ public class OrderController extends BaseController {
         orderVO.setOrderTime(orderModel.getOrderTime().toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")));
         return orderVO;
     }
+
+    private List<OrderVO> convertVOListFromModel(List<OrderModel> orderModelList){
+        List<OrderVO> orderVOList = orderModelList.stream().map(orderModel -> {
+            OrderVO orderVO = this.convertOrderVOFrmoMoedel(orderModel);
+            return orderVO;
+        }).collect(Collectors.toList());
+        return orderVOList;
+    }
+
 
 }
